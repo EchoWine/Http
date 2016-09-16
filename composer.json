@@ -1,0 +1,10 @@
+{
+    "name": "echowine/http",
+    "version": "master",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4" : {
+            "CoreWine\\Http\\" : "src/"
+        }
+    }
+}
