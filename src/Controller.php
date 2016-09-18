@@ -4,7 +4,7 @@ namespace CoreWine\Http;
 
 use CoreWine\Http\Router;
 use CoreWine\View\Engine;
-use CoreWine\Exceptions as Exceptions;
+use CoreWine\Http\Exceptions as Exceptions;
 use CoreWine\View\Response as ViewResponse;
 
 use CoreWine\Http\Response\JSONResponse;
