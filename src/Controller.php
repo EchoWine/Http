@@ -3,9 +3,9 @@
 namespace CoreWine\Http;
 
 use CoreWine\Http\Router;
-use CoreWine\TemplateEngine\Engine;
-use CoreWine\Exceptions as Exceptions;
-use CoreWine\TemplateEngine\Response as ViewResponse;
+use CoreWine\View\Engine;
+use CoreWine\Http\Exceptions as Exceptions;
+use CoreWine\View\Response as ViewResponse;
 
 use CoreWine\Http\Response\JSONResponse;
 use CoreWine\Http\Response\RedirectResponse;
@@ -63,6 +63,7 @@ class Controller{
 
 				$request = new Request();
 				$request -> retrieve();
+
 
 				return call_user_func_array(array($this,$method), array_merge([$request],func_get_args()));
 			}) -> middleware($this -> middleware);
