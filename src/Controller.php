@@ -20,16 +20,18 @@ class Controller{
 	 * @var Array
 	 */
 	public $middleware = [];
+	
+	/**
+	 * Define your routes
+	 *
+	 * @param Router $router
+	 */
+	public function __routes($router){}
 
 	/**
-	 * Router
+	 * Boot controller
 	 */
-	public function __routes(){}
-
-	/**
-	 * Check
-	 */
-	public function __check(){}
+	public function __boot(){}
 	
 	/**
 	 * Return a ViewResponse
@@ -45,29 +47,6 @@ class Controller{
 		$response = new ViewResponse();
 		$response -> setBody(Engine::html($file));
 		return $response;
-	}
-
-	/**
-	 * Set a route
-	 *
-	 * @param string $method
-	 *
-	 * @return Route
-	 */
-	public function route($method = null){
-		if($method !== null){
-			return Router::any() -> callback(function() use($method){
-				if(!method_exists($this,$method)){
-					throw new Exceptions\RouteException("No method $method; Check __routes() definition");
-				}
-
-				$request = new Request();
-				$request -> retrieve();
-
-
-				return call_user_func_array(array($this,$method), array_merge([$request],func_get_args()));
-			}) -> middleware($this -> middleware);
-		}
 	}
 
 	// @todo get rid of the $this

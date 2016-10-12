@@ -31,6 +31,10 @@ class Route{
 	}
 
 	public function url($url){
+
+		if($url[0] !== "/")
+			$url = "/".$url;
+
 		$this -> url = $url;
 		return $this;
 	}
@@ -108,9 +112,11 @@ class Route{
 		$regex_url = self::parseUrlToRegex($this -> url,$this -> where);
 		$this -> url_regex($regex_url);
 
+		
 		if(preg_match($regex_url,$url,$res)){
 
 			// ? Remove first slash ??
+
 			unset($res[0]);
 
 			foreach($res as &$k){
@@ -146,6 +152,7 @@ class Route{
 			}
 		}
 
+		if($url[0] == "/")
 		$url = substr($url,1);
 
 
