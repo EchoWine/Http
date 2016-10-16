@@ -4,7 +4,7 @@ namespace CoreWine\Http\Controller;
 
 use CoreWine\Http\Exceptions;
 use CoreWine\Http\Request;
-use CoreWine\Http\Router;
+use CoreWine\Http\Router as HttpRouter;
 
 class Router{
 
@@ -16,7 +16,7 @@ class Router{
 		$controller = $this -> controller;
 
 		if($method !== null){
-			return Router::any() -> callback(function() use($method,$controller){
+			return HttpRouter::any() -> callback(function() use($method,$controller){
 				if(!method_exists($controller,$method)){
 					throw new Exceptions\RouteException("No method $method; Check __routes() definition");
 				}
