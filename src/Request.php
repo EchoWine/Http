@@ -97,7 +97,15 @@ class Request{
 	public function retrieve(){
 		$this -> query = new Bag($_GET);
 		$this -> cookie = new Bag($_COOKIE);
-		$this -> request = new Bag($_POST);
+
+		if(Request::getMethod() == 'PUT'){
+			parse_str(file_get_contents('php://input'), $put);
+
+			$this -> request = new Bag($put);
+		}else{
+			$this -> request = new Bag($_POST);
+		}
+
 		$this -> server = new Bag($_SERVER);
 	}
 
