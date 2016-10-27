@@ -277,7 +277,16 @@ class Request{
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 	    return $protocol.$_SERVER['HTTP_HOST'].'/';
 	}
-	
+
+	/**
+	 * Document root
+	 *
+	 * @return string
+	 */
+	public static function root(){
+		return $_SERVER['DOCUMENT_ROOT'].self::$base;
+	}
+
 	/**
 	 * Get method of the request
 	 * 
