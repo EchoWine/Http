@@ -21,8 +21,7 @@ class Router{
 					throw new Exceptions\RouteException("No method $method; Check __routes() definition");
 				}
 
-				$request = new Request();
-				$request -> retrieve();
+				$request = Request::make();
 
 
 				return call_user_func_array(array($controller,$method), array_merge([$request],func_get_args()));

@@ -36,25 +36,7 @@ class Request{
 	 */
 	const METHOD_DELETE = 'DELETE';
 
-	/**
-	 * GET
-	 */
-	public static $REQUEST_GET;
-
-	/**
-	 * PUT
-	 */
-	public static $REQUEST_PUT;
-
-	/**
-	 * POST
-	 */
-	public static $REQUEST_POST;
-
-	/**
-	 * FILES
-	 */
-	public static $REQUEST_FILES;
+	public static $instance;
 
 	/**
 	 * Method of request
@@ -81,11 +63,15 @@ class Request{
 
 		self::$__method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : null;
 
-		self::ini_REQUEST_GET();
-		self::ini_REQUEST_POST();
-		self::ini_REQUEST_PUT();
-		self::ini_REQUEST_FILES();
 	}
+
+	public static function make(){
+		$t = new self();
+		$t -> retrieve();
+		self::$instance = $t;
+		return $t;
+	}
+
 
 	/**
 	 * Construct
@@ -122,34 +108,6 @@ class Request{
 	public static function server($index){
 		return isset($_SERVER[$index]) ? $_SERVER[$index] : null;
 	}
-	
-	/** 
-	 * Ini put
-	 */
-	public static function ini_REQUEST_GET(){
-		Request::$REQUEST_GET = $_GET;
-	}
-
-	/** 
-	 * Ini put
-	 */
-	public static function ini_REQUEST_POST(){
-		Request::$REQUEST_POST = $_POST;
-	}
-
-	/** 
-	 * Ini put
-	 */
-	public static function ini_REQUEST_PUT(){
-		parse_str(file_get_contents('php://input'), Request::$REQUEST_PUT);
-	}
-
-	/** 
-	 * Ini put
-	 */
-	public static function ini_REQUEST_FILES(){
-		Request::$REQUEST_FILES = $_FILES;
-	}
 
 	/**
 	 * Get all params in the request
@@ -158,11 +116,24 @@ class Request{
 		return [
 			'url' => Request::getRelativeUrl(),
 			'method' => Request::getMethod(),
-			'get' => Request::$REQUEST_GET,
-			'post' => Request::$REQUEST_POST,
-			'put' => Request::$REQUEST_PUT
+			'get' => Request::$instance -> get,
+			'post' => Request::$instance -> request,
+			'put' => Request::$instance -> request,
 		];
 	}
+
+	public static function post($index){
+		return Request::$instance -> request -> get($index);
+	}
+
+	public static function get($index){
+		return Request::$instance -> get -> get($index);
+	}
+
+	public static function put($index){
+		return Request::$instance -> request -> get($index);
+	}
+
 
 	/**
 	 * Redirect to url
@@ -182,49 +153,6 @@ class Request{
 	public static function refresh(){
 		header("Location:".$_SERVER['REQUEST_URI']);
 		die();
-	}
-
-	/**
-	 * Get request get
-	 *
-	 * @param string $name
-	 * @param mixed $default
-	 * @return $_GET
-	 */
-	public static function get($name,$default = null){
-		return isset(Request::$REQUEST_GET[$name]) ? Request::$REQUEST_GET[$name] : $default;
-	}
-	
-
-	/**
-	 * Get request post
-	 *
-	 * @param string $name
-	 * @param mixed $default
-	 * @return $_POST
-	 */
-	public static function post($name,$default = null){
-		return isset(Request::$REQUEST_POST[$name]) ? Request::$REQUEST_POST[$name] : $default;
-	}
-
-	/**
-	 * Get request put
-	 *
-	 * @param string $name
-	 * @param mixed $default
-	 * @return $_POST
-	 */
-	public static function put($name,$default = null){
-		return isset(Request::$REQUEST_PUT[$name]) ? Request::$REQUEST_PUT[$name] : $default;
-	}
-	/**
-	 * Get request files
-	 *
-	 * @param string $name
-	 * @return $_FILES
-	 */
-	public static function files($name){
-		return isset(Request::$REQUEST_FILES[$name]) ? Request::$REQUEST_FILES[$name] : null;
 	}
 
 	/**
@@ -341,6 +269,15 @@ class Request{
 		return dirname($_SERVER['PHP_SELF'])."/";
 	}
 
+	public static function base(){
+		return dirname(self::$instance -> server -> get('PHP_SELF'))."/";
+	}
+	
+	public static function host(){
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+	    return $protocol.$_SERVER['HTTP_HOST'].'/';
+	}
+	
 	/**
 	 * Get method of the request
 	 * 
@@ -350,26 +287,6 @@ class Request{
 		return Request::$__method;
 	}
 
-	public static function all(){
-
-		switch(Request::getMethod()){
-			case Request::METHOD_GET:
-				return Request::$REQUEST_GET;
-			break;
-			case Request::METHOD_POST:
-				return Request::$REQUEST_POST;
-			break;
-			case Request::METHOD_PUT:
-				return Request::$REQUEST_PUT;
-			break;
-			case Request::METHOD_DELETE:
-				return Request::$REQUEST_DELETE;
-			break;
-		}
-	}
-
 }
-
-Request::ini();
 
 ?>
