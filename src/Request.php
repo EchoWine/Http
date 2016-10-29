@@ -284,7 +284,7 @@ class Request{
 	 * @return string
 	 */
 	public static function root(){
-		return $_SERVER['DOCUMENT_ROOT'].self::$base;
+		return $_SERVER['DOCUMENT_ROOT'].self::base();
 	}
 
 	/**
