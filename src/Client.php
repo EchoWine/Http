@@ -63,6 +63,12 @@ class Client{
 	 */
 	public function download($url,$destination){
 
+		# Make dir if doesn't exists
+		$dir = dirname($destination);
+		
+		if(!file_exists($dir))
+			mkdir($dir,0777,true);
+
 		$file = fopen($destination, "w");
 
 		$ch = curl_init();
