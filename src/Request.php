@@ -116,9 +116,8 @@ class Request{
 		return [
 			'url' => Request::getRelativeUrl(),
 			'method' => Request::getMethod(),
-			'get' => Request::$instance -> get,
-			'post' => Request::$instance -> request,
-			'put' => Request::$instance -> request,
+			'get' => Request::$instance -> query,
+			'request' => Request::$instance -> request,
 		];
 	}
 
