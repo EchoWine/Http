@@ -139,10 +139,9 @@ class Route{
 
 		preg_match_all("/\{([^}]*)\}/",$url,$matches);
 
-		$i = 1;
 		foreach($matches[1] as $match){
-			if(isset($params[$i]))
-				$url = str_replace("{".$match."}",$params[$i++],$url);
+			if(isset($params[$match]))
+				$url = str_replace("{".$match."}",$params[$match],$url);
 			else{
 
 				# Match only if optional

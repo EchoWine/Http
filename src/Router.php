@@ -85,15 +85,16 @@ class Router{
 	 *
 	 * @param string $alias url
 	 */
-	public static function url($alias){
+	public static function url($alias,$params = []){
 
-		$params = func_get_args();
 
 		$url = self::getRouterByAlias($alias);
 
 		if($url == null)
 			throw new Exceptions\RouteException("No Route found for alias: ". $alias);
 
+	
+		
 		return $url -> getFullUrl($params);
 		
 	}
