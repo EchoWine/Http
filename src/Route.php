@@ -108,11 +108,24 @@ class Route{
 		return $this -> method == null ? true : $this -> method == $method;
 	}
 
+	public function parseFirstSlash($url){
+
+		if($url[0] != "/")
+			$url = "/".$url;
+
+		if(isset($url[1]) && $url[0] == "/" && $url[1] == "/")
+			$url = substr($url,1);
+
+		return $url;
+	}
+
 	public function checkUrl($url){
 		$regex_url = self::parseUrlToRegex($this -> url,$this -> where);
+
 		$this -> url_regex($regex_url);
 
-		
+		$url = $this -> parseFirstSlash($url);
+
 		if(preg_match($regex_url,$url,$res)){
 
 			// ? Remove first slash ??
@@ -156,7 +169,9 @@ class Route{
 
 
 		$url = preg_replace("/\/\{([^}\?]*)\?\}/","",$url);
-		return Router::getDirUrl().$url;
+		$url = Router::getDirUrl().$url;
+		$url = $this -> parseFirstSlash($url);
+		return $url;
 	}
 
 	/**

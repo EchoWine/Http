@@ -4,6 +4,8 @@ namespace CoreWine\Http;
 
 use CoreWine\Http\Exceptions;
 
+use CoreWine\Http\Request;
+
 class Router{
 
 	/**
@@ -214,7 +216,7 @@ class Router{
 	 * @return string relative url
 	 */
 	public static function getRelativeUrl(){
-		return preg_replace("/(\?|&).*/",'',str_replace(dirname(Request::server('PHP_SELF')),'',Request::server('REQUEST_URI')));
+		return Request::getRelativeUrl();
 	}
 
 	/**
@@ -224,7 +226,7 @@ class Router{
 	 * @return string relative url
 	 */
 	public static function getDirUrl($path = '/'){
-		return dirname($_SERVER['PHP_SELF']).$path;
+		return Request::getDirUrl($path);
 	}
 
 }

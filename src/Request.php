@@ -256,7 +256,12 @@ class Request{
 	 * @return string relative url
 	 */
 	public static function getRelativeUrl(){
-		return preg_replace("/(\?|&).*/",'',str_replace(dirname($_SERVER['PHP_SELF']),'',$_SERVER['REQUEST_URI']));
+		$dir = dirname(strtolower(Request::server('PHP_SELF')));
+
+		if($dir == "/")
+			$dir = "";
+
+		return preg_replace("/(\?|&).*/",'',str_replace($dir,'',strtolower(Request::server('REQUEST_URI'))));
 	}
 
 	/**
@@ -264,8 +269,13 @@ class Request{
 	 * 
 	 * @return string relative url
 	 */
-	public static function getDirUrl(){
-		return dirname($_SERVER['PHP_SELF'])."/";
+	public static function getDirUrl($path = "/"){
+		$dir = dirname($_SERVER['PHP_SELF']);
+		if($dir == "/" || $dir == "\\")
+			$dir = "";
+
+
+		return $dir.$path;
 	}
 
 	public static function base(){
