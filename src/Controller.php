@@ -63,8 +63,8 @@ class Controller{
 	 * Returns a new instance of CoreWine\Http\Response\RedirectResponse
 	 * @return CoreWine\Http\Response\RedirectResponse 				
 	 */
-	public function redirect() {
-		return new RedirectResponse;
+	public function redirect($url) {
+		return Request::redirect(Router::url($url));
 	}
 
 	public function json($params){
