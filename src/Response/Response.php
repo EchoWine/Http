@@ -125,8 +125,11 @@ class Response{
 	 * @param array $headers The response headers.
 	 */
 	public function __construct($body = null, $status_code = null, $headers = []){
+
 		//if (isHeaderValid($headers)) {}
 		$this -> headers = $headers;
+
+		$this -> defaultHeaders();
 
 		if (isset($body) && $body !== null) {
 			$this -> setBody($body);
@@ -136,6 +139,16 @@ class Response{
 		//if (isStatusValid($status)) {}
 		$this -> status_code = $status_code;
 
+	}
+
+	/**
+	 * Add default headers
+	 *
+	 * @return void
+	 */
+	public function defaultHeaders(){
+		$this -> header('X-Content-Type-Options','nosniff');
+		$this -> header('X-Frame-Options','SAMEORIGIN');
 	}
 
 	/** 

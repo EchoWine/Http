@@ -49,10 +49,9 @@ class Controller{
 		return $response;
 	}
 
-	// @todo get rid of the $this
-
 	/**
 	 * Returns a new instance of CoreWine\Http\Response\Response
+	 *
 	 * @return CoreWine\Http\Response\Response 				
 	 */
 	public function response() {
@@ -61,12 +60,18 @@ class Controller{
 
 	/**
 	 * Returns a new instance of CoreWine\Http\Response\RedirectResponse
+	 *
 	 * @return CoreWine\Http\Response\RedirectResponse 				
 	 */
-	public function redirect($url) {
-		return Request::redirect(Router::url($url));
+	public function redirect($url){
+		return new RedirectResponse(Router::url($url));
 	}
 
+	/**
+	 * Returns a new instance of CoreWine\Http\Response\JsonResponse
+	 *
+	 * @return CoreWine\Http\Response\JsonResponse 				
+	 */
 	public function json($params){
 		return (new JSONResponse()) -> setBody($params);
 	}
