@@ -201,7 +201,9 @@ class Router{
 
 			if($middleware instanceof \CoreWine\Http\Middleware){
 				
-				$response = $middleware -> handle();
+
+				$request = Request::make();
+				$response = $middleware -> handle($request);
 
 				if($response)
 					return $response;

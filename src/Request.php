@@ -83,6 +83,9 @@ class Request{
 	}
 
 	public function retrieve(){
+
+		self::startSession();
+		
 		$this -> query = new Bag($_GET);
 		$this -> cookie = new Bag($_COOKIE);
 
@@ -93,6 +96,8 @@ class Request{
 		}else{
 			$this -> request = new Bag($_POST);
 		}
+
+		$this -> session = new Bag($_SESSION);
 
 		$this -> server = new Bag($_SERVER);
 	}
