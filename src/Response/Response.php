@@ -147,8 +147,7 @@ class Response{
 	 * @return void
 	 */
 	public function defaultHeaders(){
-		$this -> header('X-Content-Type-Options','nosniff');
-		$this -> header('X-Frame-Options','SAMEORIGIN');
+		
 	}
 
 	/** 
