@@ -45,13 +45,26 @@ class Client{
 		
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
 
 		$response = curl_exec($ch);
 
-		curl_close($ch);
+		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+		$header = substr($response, 0, $header_size);
+		$body = substr($response, $header_size);
 
-		return $response;
+		curl_close($ch);
+		
+
+		if(preg_match('/Content-Encoding: gzip/',$header)){
+			$body = gzdecode($body);
+		}
+
+
+		return $body;
 	}
 
 	/** 
@@ -81,6 +94,8 @@ class Client{
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); 
 		curl_setopt($ch, CURLOPT_FILE, $file);
+
+
 		$response = curl_exec($ch);
 
 		if(!$response){
