@@ -207,28 +207,22 @@ class Response{
      * @return \CoreWine\Http\Response\Response
      */
 	public function sendHeaders() {
-		// sent already?
-		if (headers_sent()) {
+
+		if(headers_sent())
 			return $this;
-		}
+		
 
-		// retrieve and set'em 
-		foreach($this -> getHeaders() as $name => $value){
-			header($name . ": " . $value, false, $this -> status_code);
-		}
-
-		// status
         header(sprintf('HTTP/%s %s %s', 
         	$this -> version, 
         	$this -> status_code,
         	$this -> status_message), 
         	true, $this -> status_code);
 
+		foreach($this -> getHeaders() as $name => $value){
 
+			header($name . ": " . $value, false, $this -> status_code);
+		}
 
-		// cookies
-
-		
 
 		return $this;
 
