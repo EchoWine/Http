@@ -183,7 +183,7 @@ class Router{
 		
 
 		if(self::$route == null)
-			throw new Exceptions\RouteException("No Route found for: ". self::getRelativeUrl());
+			throw new Exceptions\RouteNotFoundException("No Route found for: ". self::getRelativeUrl());
 
 		if($response = self::middleware())
 			return $response;
