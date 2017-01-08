@@ -33,8 +33,13 @@ class Client{
 
 		$ch = curl_init();
 
+		#Replace "%2F" with slash, otherwhise it will be double-encoded
+		foreach($params as &$k){
+			$k = preg_replace("/%2F/i","/",$k);
+		}
 		if($method == 'GET' && !empty($params))
 			$url .= "?".http_build_query($params);
+
 
 		curl_setopt($ch, CURLOPT_URL,$url);
 
