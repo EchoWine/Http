@@ -128,8 +128,8 @@ class Request{
 		];
 	}
 
-	public static function post($index){
-		return Request::$instance -> request -> get($index);
+	public static function post($index,$value = null){
+		return Request::$instance -> request -> get($index,$value);
 	}
 
 	public static function get($index){
