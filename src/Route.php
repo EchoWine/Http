@@ -60,7 +60,12 @@ class Route{
 	}
 
 	public function alias($alias){
-		$this -> alias = $alias;
+
+		if($alias !== null){
+
+			$this -> alias = $alias;
+		}
+		
 		return $this;
 	}
 
