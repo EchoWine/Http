@@ -244,8 +244,28 @@ class Request{
 	 * Start a session
 	 */
 	public static function startSession(){
-		if(session_status() == PHP_SESSION_NONE)
-			session_start();
+		if(session_status() == PHP_SESSION_NONE){
+
+			$sn = session_name();
+			if(isset($_COOKIE[$sn])){
+				$sessid = $_COOKIE[$sn];
+			}else if(isset($_GET[$sn])){
+				$sessid = $_GET[$sn];
+			}else{
+				return session_start();
+			}
+
+			if(!preg_match('/^[a-zA-Z0-9,\-]{22,40}$/', $sessid)) {
+				session_id(uniqid());
+				session_start();
+				session_regenerate_id();
+
+				return;
+	      	}
+
+	      	return session_start();
+
+		}
 	}
 			
 	/**
